@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final MockLlmDataSources _dataSources = MockLlmDataSources();
   final TextEditingController _emailInputController = TextEditingController();
-  final List<EmailMessage> _emails = [];
+  List<EmailMessage> _emails = [];
   final Uuid _uuid = const Uuid();
   bool _isClassifying = false;
 
@@ -74,6 +74,30 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _setDemoStrings() {
+    _emailInputController.clear();
+    _emailInputController.text = """I've been charged twice and I need my money back.
+The app crashed when I tried to upload a photo. It's a critical bug report!
+Just wanted to say how much I love your service! It's fantastic.
+My order hasn't arrived yet, and the tracking number isn't updating. This is a shipping/delivery issue.
+Could you add a dark mode feature? It would be great for night usage.
+I can't log in to my account. I keep getting an error message. I need technical support.
+I'm interested in purchasing your enterprise solution. Can someone contact me about sales inquiries?
+I received a suspicious email asking for my login credentials. This looks like a security concern.
+Claim your free prize now! Click here to redeem. This is definitely spam.
+I need a refund for the item I bought last week. It didn't meet my expectations.
+The website is so slow, it takes ages to load anything. This is a major complaint.
+I found a typo on your pricing page. (no specific tag for this, will go to Other)
+My delivery was delayed due to a bad address. Can you help?
+I lost my password. Please send me a new one.
+""";
+  }
+
+  void _setDemoSingleString() {
+    _emailInputController.clear();
+    _emailInputController.text = "I've been charged twice and I need my money back.";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +112,6 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                const SizedBox(height: 16),
                 TextField(
                   controller: _emailInputController,
                   decoration: InputDecoration(
@@ -100,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () => _emailInputController.clear(),
                     ),
                   ),
-                  maxLines: 4,
+                  maxLines: 3,
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -123,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                         child: const Text('Add Unclassified Emails'),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
@@ -163,7 +186,56 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _setDemoSingleString();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          backgroundColor: Colors.black26,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text('1 Emails'),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _setDemoStrings();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          backgroundColor: Colors.black45,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text('Multi Emails'),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _emails = [];
+                            _emailInputController.clear();
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text('Clear all'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
                 const Divider(),
                 Align(
                   alignment: Alignment.centerLeft,
